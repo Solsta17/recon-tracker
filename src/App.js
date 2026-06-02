@@ -83,20 +83,17 @@ export default function ReconTracker() {
   const fileInputRef = useRef();
 
   // ── Real-time Firestore listeners ──
+  // Users load first so login screen appears immediately — rest loads in background
   useEffect(() => {
-    let ready = 0;
-    const done = () => { ready++; if (ready >= 7) setLoaded(true); };
-
     const unsubs = [
-      onSnapshot(col("vehicles"),   s => { setVehicles(s.docs.map(d=>({id:d.id,...d.data()}))); done(); }),
-      onSnapshot(col("parts"),      s => { setParts(s.docs.map(d=>({id:d.id,...d.data()}))); done(); }),
-      onSnapshot(col("notes"),      s => { setNotes(s.docs.map(d=>({id:d.id,...d.data()}))); done(); }),
-      onSnapshot(col("photos"),     s => { setPhotos(s.docs.map(d=>({id:d.id,...d.data()}))); done(); }),
-      onSnapshot(col("users"),      s => { setUsers(s.docs.map(d=>({id:d.id,...d.data()}))); done(); }),
-      onSnapshot(col("vendors"),    s => { setVendors(s.docs.map(d=>({id:d.id,...d.data()}))); done(); }),
-      onSnapshot(col("vendorJobs"), s => { setVendorJobs(s.docs.map(d=>({id:d.id,...d.data()}))); done(); }),
+      onSnapshot(col("users"),      s => { setUsers(s.docs.map(d=>({id:d.id,...d.data()}))); setLoaded(true); }),
+      onSnapshot(col("vehicles"),   s => { setVehicles(s.docs.map(d=>({id:d.id,...d.data()}))); }),
+      onSnapshot(col("parts"),      s => { setParts(s.docs.map(d=>({id:d.id,...d.data()}))); }),
+      onSnapshot(col("notes"),      s => { setNotes(s.docs.map(d=>({id:d.id,...d.data()}))); }),
+      onSnapshot(col("photos"),     s => { setPhotos(s.docs.map(d=>({id:d.id,...d.data()}))); }),
+      onSnapshot(col("vendors"),    s => { setVendors(s.docs.map(d=>({id:d.id,...d.data()}))); }),
+      onSnapshot(col("vendorJobs"), s => { setVendorJobs(s.docs.map(d=>({id:d.id,...d.data()}))); }),
     ];
-
     return () => unsubs.forEach(u => u());
   }, []);
 
@@ -252,12 +249,17 @@ export default function ReconTracker() {
   async function deleteJob(id) { await deleteDoc(doc(db,"vendorJobs",id)); }
 
   // ── Screens ──
+  // Show minimal splash only for first ~2 seconds while users collection loads
   if (!loaded) return (
-    <div style={S.splash}>
-      <div style={S.splashInner}>
-        <div style={{fontSize:"2.5rem",marginBottom:12}}>🔧</div>
-        <div style={{fontSize:"1rem",fontWeight:700,letterSpacing:".1em"}}>RECON TRACKER</div>
-        <div style={{fontSize:".75rem",color:"#475569",marginTop:6}}>Connecting…</div>
+    <div style={S.loginWrap}>
+      <div style={S.loginBox}>
+        <div style={{fontSize:"2.5rem"}}>🔧</div>
+        <div style={S.loginTitle}>RECON TRACKER</div>
+        <div style={{color:"#475569",fontSize:".75rem",marginTop:4,display:"flex",alignItems:"center",gap:8}}>
+          <span style={{display:"inline-block",width:12,height:12,borderRadius:"50%",border:"2px solid #2563EB",borderTopColor:"transparent",animation:"spin 0.8s linear infinite"}} />
+          Connecting…
+        </div>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     </div>
   );
