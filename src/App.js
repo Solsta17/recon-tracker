@@ -277,7 +277,7 @@ export default function ReconTracker() {
         </div>
         {loginError && <div style={{color:"#F87171",fontSize:".78rem"}}>{loginError}</div>}
         <button style={S.loginBtn} onClick={handleLogin}>Sign In</button>
-        <div style={{color:"#475569",fontSize:".7rem",marginTop:4}}>Default: name <strong style={{color:"#94A3B8"}}>Admin</strong> · PIN <strong style={{color:"#94A3B8"}}>1234</strong></div>
+      
       </div>
     </div>
   );
