@@ -1,26 +1,14 @@
-// src/firebase.js
-//
-// ─────────────────────────────────────────────────────────────────────────────
-// STEP: Paste your Firebase project config here.
-//
-// How to get this:
-//   1. Go to https://console.firebase.google.com
-//   2. Select your project → Project Settings (gear icon)
-//   3. Scroll to "Your apps" → Web app → click the </> icon if no app yet
-//   4. Copy the firebaseConfig object and paste the values below
-// ─────────────────────────────────────────────────────────────────────────────
-
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey:            "PASTE_YOUR_API_KEY_HERE",
-  authDomain:        "PASTE_YOUR_AUTH_DOMAIN_HERE",
-  projectId:         "PASTE_YOUR_PROJECT_ID_HERE",
-  storageBucket:     "PASTE_YOUR_STORAGE_BUCKET_HERE",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
-  appId:             "PASTE_YOUR_APP_ID_HERE",
+  apiKey: "AIzaSyBQuICHbX3ma-hk4jtfW0Oh030ei8DhsS8",
+  authDomain: "iao-inventory.firebaseapp.com",
+  projectId: "iao-inventory",
+  storageBucket: "iao-inventory.firebasestorage.app",
+  messagingSenderId: "836259648028",
+  appId: "1:836259648028:web:e510d828319da46c6a05d9",
 };
 
 const app     = initializeApp(firebaseConfig);
